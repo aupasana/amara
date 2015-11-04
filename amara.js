@@ -9,7 +9,7 @@ String.prototype.replaceAll = function(search, replace) {
 }
 
 // default varga
-LoadVarga('2.02.bhuumi');
+LoadVarga('2.03.pura');
 //LoadVarga('in-progress');
 
 function LoadVarga(varga) {
@@ -138,8 +138,9 @@ function ConvertProcessedDataToHtml(processedData) {
 
 function ProcessData(result) {
 	var ret = [];
-		
-	var splitResult = result.split(/\r?\n/);	
+
+	// normalize line endings by treating \r\n\n as a single line	
+	var splitResult = result.replaceAll('\n\n', '\n').split(/\r?\n/);	
 	var lineNumber = 0;
 	var entry = [];
 	while (lineNumber < splitResult.length) {
