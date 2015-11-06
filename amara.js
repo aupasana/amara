@@ -9,7 +9,7 @@ String.prototype.replaceAll = function(search, replace) {
 }
 
 // default varga
-LoadVarga('2.03.pura');
+LoadVarga('2.04.shaila');
 //LoadVarga('in-progress');
 
 function LoadVarga(varga) {
@@ -96,11 +96,17 @@ function ConvertProcessedDataToHtml(processedData) {
 		output += tab + '<tr class="breakafter"><td></td>';
 
 		for (var j=0; j<processedData[i].Parts.length; j++) {
-			var tip = '';
+			var tip = '';			
+			
+			try {
+
 			if (processedData[i].Parts[j].IsFiller === false) {
 				for (var k=0; k<processedData[i].Parts[j].Words.length; k++) {
 					tip += processedData[i].Parts[j].Words[k].Word + ' ' + processedData[i].Parts[j].Words[k].Gender + '\r\n';
 				}
+			}
+			} catch (err) {
+				throw 'Error processing entry: ' + JSON.stringify(processedData[i], null, 2);
 			}
 
 			output += '<td>'; 	
@@ -193,6 +199,13 @@ function NormalizeCompositeEntry(entry) {
 	if (entry.length >= 3) {
 		splitEnglish = entry[2].replaceAll('+', '$$+').split('$$');
 	}
+
+	// If the number of entries don't match, try auto-splitting the list of words
+//	if (splitVerses.length != splitWords.length && splitWords !== null && splitWords !== undefined && splitWords.length !== 0) {
+//		splitEnglish = entry[2].replaceAll(',', '$$+').split('$$');
+//
+//		throw 'Unmatched entries: \r\n' + entry[0] + '\r\n' + entry[1];
+//	}
 
 	var ret = [];
 	
