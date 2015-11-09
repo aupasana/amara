@@ -1,5 +1,28 @@
+//
+// Globals
+//
 
-// RunTests();
+archivePDFLocation = { 
+	'mi' : 'https://archive.org/stream/AmaraKosha/amara_maheswari_nsp',
+	'hg' : 'https://archive.org/stream/AmaraKosha/amara_hindi_haragovinda',
+	'cb' : 'https://archive.org/stream/AmaraKosha/amara_english_colebrook'
+};
+
+archivePDFOffset = { 
+	'mi' : 1,
+	'hg' : 27,
+	'cb' : 30
+};
+
+amaraAudio = undefined;
+amaraAudioBase = "https://archive.org/download/AmaraKoshaAudio/";
+amaraAudioList = new Object();
+amaraAudioCurrentlyPlaying = undefined;
+
+//
+// Helper functions
+//
+
 
 String.prototype.replaceAll = function(search, replace) {
     if (replace === undefined) {
@@ -8,9 +31,88 @@ String.prototype.replaceAll = function(search, replace) {
     return this.split(search).join(replace);
 }
 
-// default varga
-LoadVarga('2.04.shaila');
-//LoadVarga('in-progress');
+String.prototype.format = String.prototype.f = function() {
+    var s = this,
+        i = arguments.length;
+
+    while (i--) {
+        s = s.replace(new RegExp('\\{' + i + '\\}', 'gm'), arguments[i]);
+    }
+    return s;
+};
+
+String.prototype.startsWith = function (prefix) {
+    return this.slice(0, prefix.length) == prefix;
+}
+
+function PrintJsonToConsole (someObject) {
+	var json = JSON.stringify(someObject, null, 2);
+	console.log(json);
+}
+
+function Pad (str, max) {
+  str = str.toString();
+  return str.length < max ? Pad("0" + str, max) : str;
+}
+
+function PlayAmara(filename) {
+	if (amaraAudio !== undefined) {
+		amaraAudio.pause();
+		amaraAudio = undefined;
+	
+		if(amaraAudioCurrentlyPlaying === filename) {
+			amaraAudioCurrentlyPlaying = undefined;
+			return;
+		}
+	}
+
+	var qualifiedFilename = amaraAudioBase + filename;
+	console.log('Playing ' + qualifiedFilename);
+	amaraAudio = new Audio(qualifiedFilename);
+	amaraAudio.play();	
+	amaraAudioCurrentlyPlaying = filename;
+}
+
+
+//
+// On-library load
+//
+
+$.urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return null;
+    }
+    else{
+       return results[1] || 0;
+    }
+}
+
+$.ajax({
+	url : 'amaraAudio.txt',
+	success : function(result){
+		var splitResult = result.replaceAll('\n\n', '\n').split(/\r?\n/);	
+		for (var i=0; i<splitResult.length; i++) {
+			var lineNumber = splitResult[i].split('-')[1];
+			if (lineNumber !== undefined) {
+				amaraAudioList[lineNumber] = splitResult[i];			
+			}
+		}
+		// PrintJsonToConsole(amaraAudioList);
+	}
+});
+
+if ($.urlParam('varga') !== null && $.urlParam('varga') !== undefined) {
+	LoadVarga($.urlParam('varga'));
+} else {
+	LoadVarga('2.07.manushya');
+}
+
+
+
+//
+// Bulk of the code
+//
 
 function LoadVarga(varga) {
 	$.ajax({
@@ -21,8 +123,10 @@ function LoadVarga(varga) {
 
 			document.getElementById('measure').innerHTML = '&nbsp;&nbsp;';
 			document.getElementById('amara').innerHTML = dataAsHtml;
-			
+
+			if ($.urlParam('scrollToBottom') === 'true') {
 				window.scrollTo(0,document.body.scrollHeight);		
+			}
 		}
 	});
 }
@@ -30,7 +134,7 @@ function LoadVarga(varga) {
 function VargaSelected() {
 	var e = document.getElementById("varga");
 	var strVarga = e.options[e.selectedIndex].value;
-	console.log(strVarga)
+	// console.log(strVarga)
 	LoadVarga(strVarga);
 }	
 
@@ -39,8 +143,9 @@ function ConvertProcessedDataToHtml(processedData) {
 	var output = '';
 	var newline = '\r\n'
 	var tab = '    ';
+
 	var slokaNumber = 1;
-	
+
 	for (var i=0; i<processedData.length; i++) {
 		
 		var mulamPadding = 0;
@@ -64,9 +169,19 @@ function ConvertProcessedDataToHtml(processedData) {
 		output += '<tr class="nobreakafter">' + newline;
 		
 		// sloka number
+
 		var numberToEmit = '';
-		if (processedData[i].ContinuePreviousLine === false) {
-			numberToEmit  = slokaNumber++;
+		if (processedData[i].Parameters.noLineNumber !== undefined) {
+			numberToEmit = '**';
+		} else {
+
+			if (processedData[i].Parameters.lineNumber !== undefined) {
+				slokaNumber = processedData[i].Parameters.lineNumber;
+			}
+
+			if (processedData[i].ContinuePreviousLine === false) {
+				numberToEmit  = slokaNumber++;
+			}
 		}
 		output += '<td class="slokaNumber">' + numberToEmit + '</td>' + newline;
 		output += '<td class="trans" width=200>';
@@ -99,12 +214,11 @@ function ConvertProcessedDataToHtml(processedData) {
 			var tip = '';			
 			
 			try {
-
-			if (processedData[i].Parts[j].IsFiller === false) {
-				for (var k=0; k<processedData[i].Parts[j].Words.length; k++) {
-					tip += processedData[i].Parts[j].Words[k].Word + ' ' + processedData[i].Parts[j].Words[k].Gender + '\r\n';
+				if (processedData[i].Parts[j].IsFiller === false) {
+					for (var k=0; k<processedData[i].Parts[j].Words.length; k++) {
+						tip += processedData[i].Parts[j].Words[k].Word + ' ' + processedData[i].Parts[j].Words[k].Gender + '\r\n';
+					}
 				}
-			}
 			} catch (err) {
 				throw 'Error processing entry: ' + JSON.stringify(processedData[i], null, 2);
 			}
@@ -115,7 +229,38 @@ function ConvertProcessedDataToHtml(processedData) {
 		}
 		output += '</tr>' + newline;
 		output += '</table></td>' + newline;
-		
+	
+		// pdf references
+		var pdfLinks = '';
+		for(var propertyName in processedData[i].Parameters) {
+			if (propertyName.startsWith('pdf_')) {
+				var pdfType = propertyName.substring(4);
+				var pageNumber = processedData[i].Parameters[propertyName] + archivePDFOffset[pdfType];
+				var location = archivePDFLocation[pdfType] + '#page/n' + pageNumber + '/mode/1up'; 
+				pdfLinks += '<a target="' + pdfType + '" href="' + location + '">' + pdfType + '</a> ';
+			}			
+		}		
+
+		// audio references
+		var audioLinks = '';
+
+		var c = Pad(slokaNumber-1, 4);
+		var a = amaraAudioList[Pad(slokaNumber-1, 4)];
+		var b = processedData[i].ContinuePreviousLine;
+		if (amaraAudioList[Pad(slokaNumber-1, 4)] !== undefined && processedData[i].ContinuePreviousLine !== true) {
+// onclick="new Audio('https://archive.org/download/AmaraKoshaAudio/amara-0312-0322.mp3').play();
+
+			// Play via javascript
+			// var onClick = '"PlayAmara(\'' + amaraAudioList[Pad(slokaNumber-1, 4)] + '\')"';
+
+			// Play directly for one-page playback
+			var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
+			audioLinks += '<img height=10 onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/2/21/Speaker_Icon.svg"/> ';
+		}
+
+		if (pdfLinks !== '') {
+			pdfLinks = '<img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Pdf_by_mimooh.svg" height=15/> ' + pdfLinks;
+		}
 
 		//
 		// words
@@ -129,7 +274,7 @@ function ConvertProcessedDataToHtml(processedData) {
 			}
 		}
 		
-		output += '<td class="words" width=200>' + tip.replaceAll('\r\n', '. ') + '</td>';
+		output += '<td class="words" width=200>' + audioLinks + tip.replaceAll('\r\n', '. ') + pdfLinks + '</td>';
 //		output += '</table>';
 		
 //		output += '<tr class="breakafter"><td>&nbsp;</td></tr>';
@@ -138,7 +283,7 @@ function ConvertProcessedDataToHtml(processedData) {
 
 	}
 	
-	console.log(output);
+//	console.log(output);
 	return output;
 }
 
@@ -191,6 +336,7 @@ function NormalizeCompositeEntry(entry) {
 	var splitVerses = [];
 	var splitWords = [];
 	var splitEnglish = [];
+	var jsonData = [];
 	
 	var splitVerses = entry[0].replaceAll('+', '$$+').split('$$');	
 	if (entry.length >= 2) {
@@ -199,6 +345,14 @@ function NormalizeCompositeEntry(entry) {
 	if (entry.length >= 3) {
 		splitEnglish = entry[2].replaceAll('+', '$$+').split('$$');
 	}
+
+	// Read other arbitrary json
+	for (var i=0; i<entry.length; i++) {
+		if (entry[i].length > 0 && entry[i][0] === '{') {
+			jsonData.push(entry[i]);
+		}
+	}
+
 
 	// If the number of entries don't match, try auto-splitting the list of words
 //	if (splitVerses.length != splitWords.length && splitWords !== null && splitWords !== undefined && splitWords.length !== 0) {
@@ -212,21 +366,28 @@ function NormalizeCompositeEntry(entry) {
 	for (var i=0; i<splitVerses.length; i++) {
 		
 		if (splitVerses[i] !== null && splitVerses[i] != '') {
-		var singleEntry = [];
+			var singleEntry = [];
 		
-		var singleVerse = splitVerses[i];
+			var singleVerse = splitVerses[i];
 		
-		singleEntry.push(singleVerse);
-		if (i < splitWords.length) {
-			singleEntry.push(splitWords[i].replace('+', ''));
-		}
-		if (i < splitEnglish.length) {
-			singleEntry.push(splitEnglish[i].replace('+', ''));
-		}
+			singleEntry.push(singleVerse);
+			if (i < splitWords.length) {
+				singleEntry.push(splitWords[i].replace('+', ''));
+			}
+			if (i < splitEnglish.length) {
+				singleEntry.push(splitEnglish[i].replace('+', ''));
+			}
 		
-		ret.push(singleEntry);
+			ret.push(singleEntry);
 		}
 	}
+
+	for (var i=0; i<jsonData.length; i++) {
+		ret[0].push(jsonData[i]);
+	}
+
+//	$.extend(jsonData, ret[0], jsonData);
+//	ret[0] = jsonData;
 	
 	return ret;
 }
@@ -235,6 +396,21 @@ function ParseEntry(entry) {
 	if (entry === undefined || entry.length < 1) {
 		console.log ('error');
 	}	
+
+	var nonJsonData = [];
+	var jsonData = new Object();
+	for (var i=0; i<entry.length; i++) {
+		if (entry[i].length > 0 && entry[i][0] === '{') {
+			var newData = JSON.parse(entry[i]);
+			$.extend(jsonData, newData);
+		} else { 
+			nonJsonData.push(entry[i]);
+		}
+	}
+
+	entry = nonJsonData;
+	//console.log(JSON.stringify(jsonData, null, 2));
+
 
 	var parsedVerse = null;
 	var parsedWords = null;
@@ -269,7 +445,8 @@ function ParseEntry(entry) {
 			parsedVerse.Translation = entry[2];
 		}
 	}
-	
+
+	parsedVerse.Parameters = jsonData;	
 	return parsedVerse;	
 }
 

@@ -1,9 +1,13 @@
 ﻿अथ शैलवर्गः
+{ "noLineNumber" : "true" }
+{ "pdf_mi" : 70 }
+{ "pdf_hg" : 120 }
 --
 [महीध्रे] [शिखरि]-[क्ष्माभृद][हार्य][धर][पर्वताः]   । 
 
 महीध्र {m}, शिखरिन् {m}, क्ष्माभृत् {m}, अहार्य {m}, धर {m}, पर्वत {m}
 Mountain
+{ "lineNumber" : 634 }
 --
 [अद्रि]-[गोत्र]-[गिरि]-[ग्रावा][चल]-[शैल]-[शिलोच्चयाः]
 
@@ -61,6 +65,7 @@ Artificial cave + Cave
 
 दन्तक {m}
 Rocks projecting from a mountain
+{ "noLineNumber" : "true" }
 --
 [खनिः] स्त्रिया[माकरः] स्यात् + [पादाः] [प्रत्यन्तपर्वताः]
 
@@ -82,7 +87,6 @@ Fossil or mineral + Red chalk
 Place overgrown with creepers
 --
 इति शैलवर्गः
-
- 
+{ "noLineNumber" : "true" } 
 --
 *****
