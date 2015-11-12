@@ -53,8 +53,9 @@ tr td {
 	padding-top: 25px; 
 	padding-right: 10px; 
 	padding-bottom: 10pt; 
-	font-family: "Times New Roman", serif; 
-	font-size: 10px; 
+	font-family: "Sanskrit 2003", Kokila, Aparajita, Times, serif;
+	/*font-family: "Times New Roman", serif; */
+	font-size: 15px; 
 }
 .slokaNumber { 
 	text-align: right; 

@@ -3,15 +3,19 @@
 //
 
 archivePDFLocation = { 
-	'mi' : 'https://archive.org/stream/AmaraKosha/amara_maheswari_nsp',
+	'cb' : 'https://archive.org/stream/AmaraKosha/amara_english_colebrook',
 	'hg' : 'https://archive.org/stream/AmaraKosha/amara_hindi_haragovinda',
-	'cb' : 'https://archive.org/stream/AmaraKosha/amara_english_colebrook'
+	'ma' : 'https://archive.org/stream/AmaraKosha/amara_maheswara',
+	'mi' : 'https://archive.org/stream/AmaraKosha/amara_maheswari_nsp',
+	'vs' : 'https://archive.org/stream/AmaraKosha/amara_vyakya_sudha'
 };
 
 archivePDFOffset = { 
-	'mi' : 1,
+	'cb' : 30,
 	'hg' : 27,
-	'cb' : 30
+	'ma' : 21,
+	'mi' : 1,
+	'vs' : 6
 };
 
 amaraAudio = undefined;
@@ -148,6 +152,7 @@ function ConvertProcessedDataToHtml(processedData) {
 
 	for (var i=0; i<processedData.length; i++) {
 		
+		processNext:
 		var mulamPadding = 0;
 		if (processedData[i].ContinuePreviousLine === true) {
 			var back = i;
@@ -163,11 +168,6 @@ function ConvertProcessedDataToHtml(processedData) {
 			mulamPadding = measureElement.offsetWidth + ((i-back)*20);
 		}		
 
-
-		output += newline + '<!-- new row -->' + newline; 		
-//		output += '<table>';
-		output += '<tr class="nobreakafter">' + newline;
-		
 		// sloka number
 
 		var numberToEmit = '';
@@ -183,9 +183,45 @@ function ConvertProcessedDataToHtml(processedData) {
 				numberToEmit  = slokaNumber++;
 			}
 		}
+
+
+		if ($.urlParam('start') !== null && $.urlParam('start') !== undefined) {
+			if ($.urlParam('start') >= slokaNumber) {
+				continue;
+			}
+		}
+
+		if ($.urlParam('end') !== null && $.urlParam('end') !== undefined) {
+			if ($.urlParam('end') < slokaNumber-1) {
+				continue;
+			}
+		}
+
+
+		output += newline + '<!-- new row -->' + newline; 		
+//		output += '<table>';
+		output += '<tr class="nobreakafter">' + newline;
+		
+
 		output += '<td class="slokaNumber">' + numberToEmit + '</td>' + newline;
+
+		//
+		// translation
+		//
+
+		var sktTranslation = '';
+		for(var propertyName in processedData[i].Parameters) {
+			if (propertyName.startsWith('skt')) {
+				sktTranslation += processedData[i].Parameters[propertyName] + ', ';
+			}			
+		}		
+
+		if (processedData[i].SanskritTranslation.length > 0) {
+			processedData[i].SanskritTranslation += ', ';
+		}
+
 		output += '<td class="trans" width=200>';
-		output += processedData[i].Translation;
+		output += processedData[i].SanskritTranslation + processedData[i].Translation;
 		output += '</td>' + newline;
 		
 		output += '<td class="main"><table>' + newline;
@@ -335,6 +371,7 @@ function NormalizeCompositeEntry(entry) {
 	var splitVerses = [];
 	var splitWords = [];
 	var splitEnglish = [];
+	var splitSanskrit = [];
 	var jsonData = [];
 	
 	var splitVerses = entry[0].replaceAll('+', '$$+').split('$$');	
@@ -343,6 +380,9 @@ function NormalizeCompositeEntry(entry) {
 	}
 	if (entry.length >= 3) {
 		splitEnglish = entry[2].replaceAll('+', '$$+').split('$$');
+	}
+	if (entry.length >= 4) {
+		splitSanskrit = entry[3].replaceAll('+', '$$+').split('$$');
 	}
 
 	// Read other arbitrary json
@@ -375,6 +415,9 @@ function NormalizeCompositeEntry(entry) {
 			}
 			if (i < splitEnglish.length) {
 				singleEntry.push(splitEnglish[i].replace('+', ''));
+			}
+			if (i < splitSanskrit.length) {
+				singleEntry.push(splitSanskrit[i].replace('+', ''));
 			}
 		
 			ret.push(singleEntry);
@@ -444,6 +487,14 @@ function ParseEntry(entry) {
 			parsedVerse.Translation = entry[2];
 		}
 	}
+
+	parsedVerse.SanskritTranslation = '';
+	if (entry.length >= expectedLength++) {
+		if (entry[3] !== null && entry[3] !== '') {
+			parsedVerse.SanskritTranslation = entry[3];
+		}
+	}
+
 
 	parsedVerse.Parameters = jsonData;	
 	return parsedVerse;	
