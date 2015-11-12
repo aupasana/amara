@@ -103,11 +103,11 @@ $.ajax({
 });
 
 if ($.urlParam('varga') !== null && $.urlParam('varga') !== undefined) {
+//	document.getElementById('navigation').innerHTML = '';
 	LoadVarga($.urlParam('varga'));
 } else {
-	LoadVarga('2.07.manushya');
+	LoadVarga('1.09.shabdaadi');
 }
-
 
 
 //
@@ -248,14 +248,13 @@ function ConvertProcessedDataToHtml(processedData) {
 		var a = amaraAudioList[Pad(slokaNumber-1, 4)];
 		var b = processedData[i].ContinuePreviousLine;
 		if (amaraAudioList[Pad(slokaNumber-1, 4)] !== undefined && processedData[i].ContinuePreviousLine !== true) {
-// onclick="new Audio('https://archive.org/download/AmaraKoshaAudio/amara-0312-0322.mp3').play();
-
 			// Play via javascript
-			// var onClick = '"PlayAmara(\'' + amaraAudioList[Pad(slokaNumber-1, 4)] + '\')"';
+			var onClick = 'PlayAmara(\'' + amaraAudioList[Pad(slokaNumber-1, 4)] + '\')';
 
 			// Play directly for one-page playback
-			var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
-			audioLinks += '<img height=10 onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/2/21/Speaker_Icon.svg"/> ';
+			//var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
+			audioLinks += '<img height=18 onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Megaphone.svg"/> ';
+			audioLinks += '&nbsp;&nbsp;';
 		}
 
 		if (pdfLinks !== '') {
