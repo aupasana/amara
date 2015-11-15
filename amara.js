@@ -113,7 +113,6 @@ if ($.urlParam('varga') !== null && $.urlParam('varga') !== undefined) {
 	LoadVarga('1.09.shabdaadi');
 }
 
-
 //
 // Bulk of the code
 //
@@ -125,10 +124,21 @@ function LoadVarga(varga) {
 			var processedData = ProcessData(result);
 			var dataAsHtml = ConvertProcessedDataToHtml(processedData);
 
+			console.log(dataAsHtml);
+
+
 			document.getElementById('measure').innerHTML = '&nbsp;&nbsp;';
 			document.getElementById('amara').innerHTML = dataAsHtml;
 
-			if ($.urlParam('scrollToBottom') === 'true') {
+			// If hash-anchor is specified, stroll into view
+			// Otherwise, if scrollToBottom is specified as a query parameter, scroll to bottom
+			// The later is meant for quick reloads when adding new data to a varga
+
+			var hash = window.location.hash.substring(1);
+			if (hash !== undefined && hash !== null && hash !== '') {
+				var nPos = document.getElementById(hash).offsetTop
+				window.scrollBy(0,nPos)
+			} else if ($.urlParam('scrollToBottom') === 'true') {
 				window.scrollTo(0,document.body.scrollHeight);		
 			}
 		}
@@ -203,7 +213,7 @@ function ConvertProcessedDataToHtml(processedData) {
 		output += '<tr class="nobreakafter">' + newline;
 		
 
-		output += '<td class="slokaNumber">' + numberToEmit + '</td>' + newline;
+		output += '<td class="slokaNumber" id="' + slokaNumber + '">' + numberToEmit + '</td>' + newline;
 
 		//
 		// translation
