@@ -495,6 +495,9 @@ function ParseEntry(entry) {
 		}
 	}
 
+	parsedVerse.Translation = parsedVerse.Translation.trim();
+	parsedVerse.SanskritTranslation = parsedVerse.SanskritTranslation.trim();
+
 
 	parsedVerse.Parameters = jsonData;	
 	return parsedVerse;	
