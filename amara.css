@@ -30,6 +30,15 @@ tr td {
 	line-height: 0.5em; 
 	height: 0.6em;
 }
+.male {
+	color: darkblue;
+}
+.female {
+	color: darkred;
+}
+.neuter {
+	color: darkgreen;
+}
 .main { 
 	padding-left: 30px; 
 	padding-right: 30px; 

@@ -240,12 +240,19 @@ function ConvertProcessedDataToHtml(processedData) {
 		
 		//
 		// genders
+		// note: if omitGenders is specific, emit a space instead of the gender
+		// to leave the rest of the spacing intact
 		//		
+
 		output += tab + '<tr class="gender nobreakafter"><td></td>';
 		for (var j=0; j<processedData[i].Parts.length; j++) {
 			output += '<td>';		
 			if (processedData[i].Parts[j].IsFiller === false) {
-				output += processedData[i].Parts[j].Genders;
+				if ($.urlParam('omitGenders') === 'true') {
+					output += '&nbsp;';
+				} else {
+					output += processedData[i].Parts[j].Genders;
+				}
 			}
 			output += '</td>';					
 		}
@@ -269,8 +276,26 @@ function ConvertProcessedDataToHtml(processedData) {
 				throw 'Error processing entry: ' + JSON.stringify(processedData[i], null, 2);
 			}
 
+			//
+			// output the portion of the mula sloka
+			//
+
+			// optionally add colours to genders
+			var genderClass='';
+			if ($.urlParam('colourMulam') === 'true') {
+				if (processedData[i].Parts[j].Words !== undefined && processedData[i].Parts[j].Words.length >= 1) {
+					var currentWordGender = processedData[i].Parts[j].Words[0].Gender;
+					if (currentWordGender === 'm') {
+						genderClass = 'class="male"';
+					} else if (currentWordGender === 'f') {
+						genderClass = 'class="female"';
+					} else if (currentWordGender === 'n') {
+						genderClass = 'class="neuter"';
+					}
+				}
+			}
 			output += '<td>'; 	
-			output += '<span title="' + tip + '">' + processedData[i].Parts[j].Part.replaceAll(' ', '&nbsp;') + '</span>';
+			output += '<span ' + genderClass + 'title="' + tip + '">' + processedData[i].Parts[j].Part.replaceAll(' ', '&nbsp;') + '</span>';
 			output += '</td>';					
 		}
 		output += '</tr>' + newline;
