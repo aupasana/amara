@@ -1,0 +1,18 @@
+#############
+# Encoding
+#############
+
+1) Encode all vargas with mulam, lingam and english translation
+2) Add sanskrit translation
+3) Add per-line audio
+
+#############
+# Other work
+#############
+
+- Landing page
+- identify pdfs by something more meaningful than two-letter identifier
+- Link entries to apte / mw dictionaries
+- Option to view without line-breaks in middle of slokas
+- Index of all words (sanskrit)
+- Index of all words (english)
