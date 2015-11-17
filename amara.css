@@ -39,10 +39,17 @@ tr td {
 .neuter {
 	color: darkgreen;
 }
+.adjective {
+	color: darkgreen;
+}
+.filler {
+	color: black;
+}
 .main { 
 	padding-left: 30px; 
 	padding-right: 30px; 
 }
+
 .compute {
     font-family: "Sanskrit 2003", Kokila, Aparajita, Times, serif;
 	font-size: 20px;
@@ -78,3 +85,18 @@ tr td {
 .end { text-align: center; vertical-align: top; font-size: small; line-height: 0.5em; height: 0.6em;  }
 .entryshow { float:left; display:inline-block; vertical-align: middle; }
 .entryhide { float:left; color:transparent; }
+
+.box{
+    display: none;
+    width: 100%;
+}
+
+a:hover + .box,.box:hover{
+    display: block;
+    position: relative;
+    z-index: 100;
+}
+
+.apte {
+    text-decoration: none;
+}

@@ -286,16 +286,34 @@ function ConvertProcessedDataToHtml(processedData) {
 				if (processedData[i].Parts[j].Words !== undefined && processedData[i].Parts[j].Words.length >= 1) {
 					var currentWordGender = processedData[i].Parts[j].Words[0].Gender;
 					if (currentWordGender === 'm') {
-						genderClass = 'class="male"';
+						genderClass = 'male';
 					} else if (currentWordGender === 'f') {
-						genderClass = 'class="female"';
+						genderClass = 'female';
 					} else if (currentWordGender === 'n') {
-						genderClass = 'class="neuter"';
+						genderClass = 'neuter';
+					} else if (currentWordGender === 'a') {
+						genderClass = 'adjective';
+					} else {
+						genderClass = 'black';
 					}
 				}
 			}
+
+
+			var mainEntryText = processedData[i].Parts[j].Part.replaceAll(' ', '&nbsp;');
+			var mainEntry = mainEntryText;
+			if (genderClass !== '' && genderClass !== 'black') {
+				var word = processedData[i].Parts[j].Words[0].Word;
+				var apteLink = 'http://dsalsrv02.uchicago.edu/cgi-bin/philologic/search3advanced?dbname=apte&query=' + word + '&searchdomain=headwords&matchtype=start&display=utf8';
+				mainEntry = '<a class="' + genderClass + ' apte" href="' + apteLink + '">' + mainEntryText + '</a>';			
+			}
+		
+
+// <div class="box"><iframe src="http://en.wikipedia.org/" width = "500px" height = "500px"></iframe></div>
+			
+
 			output += '<td>'; 	
-			output += '<span ' + genderClass + 'title="' + tip + '">' + processedData[i].Parts[j].Part.replaceAll(' ', '&nbsp;') + '</span>';
+			output += '<span ' + genderClass + 'title="' + tip + '">' + mainEntry + '</span>';
 			output += '</td>';					
 		}
 		output += '</tr>' + newline;
