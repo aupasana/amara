@@ -335,7 +335,7 @@ function ConvertProcessedDataToHtml(processedData) {
 
 			// Play directly for one-page playback
 			//var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
-			audioLinks += '<img height=10 onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Megaphone.svg"/> ';
+			audioLinks += '<img height="15" onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/9/98/Crystal_Clear_app_knotify.png"></img> ';
 			audioLinks += '&nbsp;&nbsp;';
 		}
 
