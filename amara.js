@@ -321,17 +321,6 @@ function ConvertProcessedDataToHtml(processedData) {
 		}
 		output += '</tr>' + newline;
 		output += '</table></td>' + newline;
-	
-		// pdf references
-		var pdfLinks = '';
-		for(var propertyName in processedData[i].Parameters) {
-			if (propertyName.startsWith('pdf_')) {
-				var pdfType = propertyName.substring(4);
-				var pageNumber = processedData[i].Parameters[propertyName] + archivePDFOffset[pdfType];
-				var location = archivePDFLocation[pdfType] + '#page/n' + pageNumber + '/mode/1up'; 
-				pdfLinks += '<a target="' + pdfType + '" href="' + location + '">' + pdfType + '</a> ';
-			}			
-		}		
 
 		// audio references
 		var audioLinks = '';
@@ -346,9 +335,23 @@ function ConvertProcessedDataToHtml(processedData) {
 
 			// Play directly for one-page playback
 			//var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
-			audioLinks += '<img height=18 onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Megaphone.svg"/> ';
+			audioLinks += '<img height=10 onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/0/04/Megaphone.svg"/> ';
 			audioLinks += '&nbsp;&nbsp;';
 		}
+
+		output += '<td>' + audioLinks + '</td>';
+
+	
+		// pdf references
+		var pdfLinks = '';
+		for(var propertyName in processedData[i].Parameters) {
+			if (propertyName.startsWith('pdf_')) {
+				var pdfType = propertyName.substring(4);
+				var pageNumber = processedData[i].Parameters[propertyName] + archivePDFOffset[pdfType];
+				var location = archivePDFLocation[pdfType] + '#page/n' + pageNumber + '/mode/1up'; 
+				pdfLinks += '<a target="' + pdfType + '" href="' + location + '">' + pdfType + '</a> ';
+			}			
+		}		
 
 		if (pdfLinks !== '') {
 			pdfLinks = '<img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Pdf_by_mimooh.svg" height=15/> ' + pdfLinks;
@@ -366,7 +369,7 @@ function ConvertProcessedDataToHtml(processedData) {
 			}
 		}
 		
-		output += '<td class="words" width=200>' + audioLinks + tip.replaceAll('\r\n', '. ') + pdfLinks + '</td>';
+		output += '<td class="words" width=200>' + tip.replaceAll('\r\n', '. ') + pdfLinks + '</td>';
 //		output += '</table>';
 		
 //		output += '<tr class="breakafter"><td>&nbsp;</td></tr>';
