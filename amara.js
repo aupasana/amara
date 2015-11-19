@@ -61,12 +61,15 @@ function Pad (str, max) {
 
 function PlayAmara(filename) {
 	if (amaraAudio !== undefined) {
-		amaraAudio.pause();
-		amaraAudio = undefined;
+		var paused = amaraAudio.paused;
+		if (!paused) {
+			amaraAudio.pause();
+			amaraAudio = undefined;
 	
-		if(amaraAudioCurrentlyPlaying === filename) {
-			amaraAudioCurrentlyPlaying = undefined;
-			return;
+			if(amaraAudioCurrentlyPlaying === filename) {
+				amaraAudioCurrentlyPlaying = undefined;
+				return;
+			}
 		}
 	}
 
@@ -336,9 +339,10 @@ function ConvertProcessedDataToHtml(processedData) {
 		var c = Pad(slokaNumber-1, 4);
 		var a = amaraAudioList[Pad(slokaNumber-1, 4)];
 		var b = processedData[i].ContinuePreviousLine;
-		if (amaraAudioList[Pad(slokaNumber-1, 4)] !== undefined && processedData[i].ContinuePreviousLine !== true) {
+
+		if (processedData[i].Parameters.noLineNumber === undefined && processedData[i].ContinuePreviousLine !== true) {
 			// Play via javascript
-			var onClick = 'PlayAmara(\'' + amaraAudioList[Pad(slokaNumber-1, 4)] + '\')';
+			var onClick = 'PlayAmara(\'amara-line-' + Pad(slokaNumber-1, 4) + '.mp3\')';
 
 			// Play directly for one-page playback
 			//var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
