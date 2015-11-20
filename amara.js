@@ -304,7 +304,7 @@ function ConvertProcessedDataToHtml(processedData) {
 
 
 			var mainEntryText = processedData[i].Parts[j].Part.replaceAll(' ', '&nbsp;');
-			var mainEntry = mainEntryText;
+			mainEntryText = '<div class="' + genderClass + '">' + mainEntryText + '</div>';			
 			if (genderClass !== '' && genderClass !== 'black') {
 				var word = processedData[i].Parts[j].Words[0].Word;
 				var apteLink = 'http://dsalsrv02.uchicago.edu/cgi-bin/philologic/search3advanced?dbname=apte&query=' + word + '&searchdomain=headwords&matchtype=start&display=utf8';
@@ -316,7 +316,7 @@ function ConvertProcessedDataToHtml(processedData) {
 			
 
 			output += '<td>'; 	
-			output += '<span ' + genderClass + 'title="' + tip + '">' + mainEntry + '</span>';
+			output += '<span ' + genderClass + 'title="' + tip + '">' + mainEntryText + '</span>';
 			output += '</td>';					
 		}
 		output += '</tr>' + newline;
