@@ -10,9 +10,8 @@
 # Other work
 #############
 
-- Landing page
-- identify pdfs by something more meaningful than two-letter identifier
+- Better landing page
 - Link entries to apte / mw dictionaries
-- Option to view without line-breaks in middle of slokas
 - Index of all words (sanskrit)
 - Index of all words (english)
+- Option to view without line-breaks in middle of slokas
