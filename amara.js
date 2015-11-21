@@ -224,14 +224,8 @@ function ConvertProcessedDataToHtml(processedData) {
 
 		var sktTranslation = '';
 		if ($.urlParam('omitSanskritTranslation') !== 'true') {
-			for(var propertyName in processedData[i].Parameters) {
-				if (propertyName.startsWith('skt')) {
-					sktTranslation += processedData[i].Parameters[propertyName] + ', ';
-				}			
-			}		
-
 			if (processedData[i].SanskritTranslation.length > 0) {
-				processedData[i].SanskritTranslation += ', ';
+				sktTranslation += processedData[i].SanskritTranslation.trim() + ' ';
 			}
 		}
 
