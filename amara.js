@@ -223,18 +223,25 @@ function ConvertProcessedDataToHtml(processedData) {
 		//
 
 		var sktTranslation = '';
-		for(var propertyName in processedData[i].Parameters) {
-			if (propertyName.startsWith('skt')) {
-				sktTranslation += processedData[i].Parameters[propertyName] + ', ';
-			}			
-		}		
+		if ($.urlParam('omitSanskritTranslation') !== 'true') {
+			for(var propertyName in processedData[i].Parameters) {
+				if (propertyName.startsWith('skt')) {
+					sktTranslation += processedData[i].Parameters[propertyName] + ', ';
+				}			
+			}		
 
-		if (processedData[i].SanskritTranslation.length > 0) {
-			processedData[i].SanskritTranslation += ', ';
+			if (processedData[i].SanskritTranslation.length > 0) {
+				processedData[i].SanskritTranslation += ', ';
+			}
+		}
+
+		var englishTranslation = '';
+		if ($.urlParam('omitEnglishTranslation') !== 'true') {
+			englishTranslation = processedData[i].Translation;
 		}
 
 		output += '<td class="trans" width=200>';
-		output += processedData[i].SanskritTranslation + processedData[i].Translation;
+		output += sktTranslation + englishTranslation;
 		output += '</td>' + newline;
 		
 		output += '<td class="main"><table>' + newline;
@@ -285,7 +292,7 @@ function ConvertProcessedDataToHtml(processedData) {
 
 			// optionally add colours to genders
 			var genderClass='';
-			if ($.urlParam('colourMulam') === 'true') {
+			if ($.urlParam('omitMulamColours') !== 'true') {
 				if (processedData[i].Parts[j].Words !== undefined && processedData[i].Parts[j].Words.length >= 1) {
 					var currentWordGender = processedData[i].Parts[j].Words[0].Gender;
 					if (currentWordGender === 'm') {
@@ -323,23 +330,26 @@ function ConvertProcessedDataToHtml(processedData) {
 		output += '</table></td>' + newline;
 
 		// audio references
-		var audioLinks = '';
+		if ($.urlParam('omitAudio') !== 'true') {
 
-		var c = Pad(slokaNumber-1, 4);
-		var a = amaraAudioList[Pad(slokaNumber-1, 4)];
-		var b = processedData[i].ContinuePreviousLine;
+			var audioLinks = '';
 
-		if (processedData[i].Parameters.noLineNumber === undefined && processedData[i].ContinuePreviousLine !== true) {
-			// Play via javascript
-			var onClick = 'PlayAmara(\'amara-line-' + Pad(slokaNumber-1, 4) + '.mp3\')';
+			var c = Pad(slokaNumber-1, 4);
+			var a = amaraAudioList[Pad(slokaNumber-1, 4)];
+			var b = processedData[i].ContinuePreviousLine;
 
-			// Play directly for one-page playback
-			//var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
-			audioLinks += '<img height="15" onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/9/98/Crystal_Clear_app_knotify.png"></img> ';
-			audioLinks += '&nbsp;&nbsp;';
+			if (processedData[i].Parameters.noLineNumber === undefined && processedData[i].ContinuePreviousLine !== true) {
+				// Play via javascript
+				var onClick = 'PlayAmara(\'amara-line-' + Pad(slokaNumber-1, 4) + '.mp3\')';
+
+				// Play directly for one-page playback
+				//var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
+				audioLinks += '<img height="15" onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/9/98/Crystal_Clear_app_knotify.png"></img> ';
+				audioLinks += '&nbsp;&nbsp;';
+			}
+
+			output += '<td>' + audioLinks + '</td>';
 		}
-
-		output += '<td>' + audioLinks + '</td>';
 
 	
 		// pdf references
@@ -361,10 +371,12 @@ function ConvertProcessedDataToHtml(processedData) {
 		// words
 		//
 		var tip = '';		
-		for (var j=0; j<processedData[i].Parts.length; j++) {
-			if (processedData[i].Parts[j].IsFiller === false) {
-				for (var k=0; k<processedData[i].Parts[j].Words.length; k++) {
-					tip += processedData[i].Parts[j].Words[k].Word + ' ' + processedData[i].Parts[j].Words[k].Gender + '\r\n';
+		if ($.urlParam('omitWordList') !== 'true') {
+			for (var j=0; j<processedData[i].Parts.length; j++) {
+				if (processedData[i].Parts[j].IsFiller === false) {
+					for (var k=0; k<processedData[i].Parts[j].Words.length; k++) {
+						tip += processedData[i].Parts[j].Words[k].Word + ' ' + processedData[i].Parts[j].Words[k].Gender + '\r\n';
+					}
 				}
 			}
 		}

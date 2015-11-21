@@ -3,14 +3,28 @@
 	<link rel="stylesheet" type="text/css" href="amara.css">
 
 <script>
+function getUrlComponentForOmit(option) {
+
+	var geniusMode = (document.getElementById('geniusMode').checked === true);
+	var retString = '';
+
+	if (geniusMode === true || document.getElementById(option).checked === true) {
+		retString = '&' + option + '=true';
+	}
+
+	return retString;
+}
+
 function navigateToVarga(varga){
 	var hrefString = 'amara.html?varga=' + varga;
-	if (document.getElementById('colourMulam').checked !== false) {
-		hrefString += '&colourMulam=true';
-	}
-	if (document.getElementById('omitGenders').checked === true) {
-		hrefString += '&omitGenders=true';
-	}
+
+	hrefString += getUrlComponentForOmit('omitMulamColours');
+	hrefString += getUrlComponentForOmit('omitGenders');
+	hrefString += getUrlComponentForOmit('omitEnglishTranslation');
+	hrefString += getUrlComponentForOmit('omitSanskritTranslation');
+	hrefString += getUrlComponentForOmit('omitAudio');
+	hrefString += getUrlComponentForOmit('omitWordList');
+
 
 	window.location.href = hrefString;
 }
@@ -20,8 +34,13 @@ function navigateToVarga(varga){
 <body>
 <h1 class="nav">Amarakosha</h1>
 
-<br><input type="checkbox" id="colourMulam" checked="true">Add colour to genders
-<br><input type="checkbox" id="omitGenders" >Omit mfn gender indicators
+<br><input type="checkbox" id="omitMulamColours"> Do not colour the mulam
+<br><input type="checkbox" id="omitGenders" > Do not show 'mfn' gender indicators above main text
+<br><input type="checkbox" id="omitEnglishTranslation" > Do not show English translations
+<br><input type="checkbox" id="omitSanskritTranslation" > Do not show Sanskrit translations
+<br><input type="checkbox" id="omitAudio" > Do not show audio markers
+<br><input type="checkbox" id="omitWordList" > Do not show word lists for each line
+<br><input type="checkbox" id="geniusMode" > I am a genius. Show me just the mulam.
 
 <br><br>
 <span class="nav">
