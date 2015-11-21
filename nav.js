@@ -13,7 +13,7 @@ function getUrlComponentForOmit(option) {
 	return retString;
 }
 
-amaraDisplayOptions = ['omitMulamColours', 'omitGenders', 'omitEnglishTranslation', 'omitSanskritTranslation', 'omitAudio', 'omitWordList'];
+amaraDisplayOptions = ['omitMulamColours', 'omitGenders', 'omitEnglishTranslation', 'omitSanskritTranslation', 'omitAudio', 'omitWordList', 'geniusMode'];
 
 function navigateToVarga(varga){
 	var hrefString = 'amara.html?varga=' + varga;
