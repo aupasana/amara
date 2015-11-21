@@ -18,6 +18,14 @@ archivePDFOffset = {
 	'vs' : 6
 };
 
+archivePDFNames = {
+	'cb' : 'colebrooke',
+	'hg' : 'haragovinda',
+	'ma' : 'maheshvara',
+	'mi' : 'maheshvari',
+	'vs' : 'vakyasudha'
+};
+
 audioAvailability = {
 	'1.09.shabdaadi' : true
 };
@@ -357,9 +365,10 @@ function ConvertProcessedDataToHtml(processedData) {
 		for(var propertyName in processedData[i].Parameters) {
 			if (propertyName.startsWith('pdf_')) {
 				var pdfType = propertyName.substring(4);
+				var title = ' title="' + archivePDFNames[pdfType] + '" ';
 				var pageNumber = processedData[i].Parameters[propertyName] + archivePDFOffset[pdfType];
 				var location = archivePDFLocation[pdfType] + '#page/n' + pageNumber + '/mode/1up'; 
-				pdfLinks += '<a target="' + pdfType + '" href="' + location + '">' + pdfType + '</a> ';
+				pdfLinks += '<a ' + title + 'target="' + pdfType + '" href="' + location + '">' + archivePDFNames[pdfType] + '</a> ';
 			}			
 		}		
 
