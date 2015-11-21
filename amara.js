@@ -18,10 +18,15 @@ archivePDFOffset = {
 	'vs' : 6
 };
 
+audioAvailability = {
+	'1.09.shabdaadi' : true
+};
+
 amaraAudio = undefined;
 amaraAudioBase = "https://archive.org/download/AmaraKoshaAudio/";
 amaraAudioList = new Object();
 amaraAudioCurrentlyPlaying = undefined;
+amaraCurrentVarga = undefined;
 
 //
 // Helper functions
@@ -121,6 +126,7 @@ if ($.urlParam('varga') !== null && $.urlParam('varga') !== undefined) {
 //
 
 function LoadVarga(varga) {
+	amaraCurrentVarga = varga;
 	$.ajax({
 		url : varga + '.txt',
 		success : function(result){
@@ -324,7 +330,7 @@ function ConvertProcessedDataToHtml(processedData) {
 		output += '</table></td>' + newline;
 
 		// audio references
-		if ($.urlParam('omitAudio') !== 'true') {
+		if ($.urlParam('omitAudio') !== 'true' && audioAvailability[amaraCurrentVarga] === true ) {
 
 			var audioLinks = '';
 
