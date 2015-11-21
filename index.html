@@ -3,31 +3,87 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.4/js.cookie.min.js"></script>
 	<script src="nav.js"></script>
-	<link rel="stylesheet" type="text/css" href="amara.css">
+	<link rel="stylesheet" type="text/css" href="nav.css">
 </head>
 
 <body>
-<h1 class="nav">Amarakosha</h1>
+<h1 class="nav">amara kosha</h1>
 
-<br><input type="checkbox" id="omitMulamColours"> Do not colour the mulam
+<table>
+<tr class="header">
+	<td></td>
+	<td></td>
+	<td>varga</td>
+	<td>status</td>
+	<td>vritti</td>
+	<td>audio</td>
+</tr>
+<tr>
+	<td>[ <a href="#" onclick='navigateToVarga("1.09.shabdaadi")'>link</a> ]</td>
+	<td>1.09</td>
+	<td>shabdaadi</td>
+	<td>complete</td>
+	<td>complete</td>
+	<td>complete</td>
+</tr>
+<tr>
+	<td>[ <a href="#" onclick='navigateToVarga("1.13.vaari")'>link</a> ]</td>
+	<td>1.13</td>
+	<td>vaari</td>
+	<td>complete</td>
+	<td>complete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>[ <a href="#" onclick='navigateToVarga("2.02.bhuumi")'>link</a> ]</td>
+	<td>2.02</td>
+	<td>bhuumi</td>
+	<td>complete</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>[ <a href="#" onclick='navigateToVarga("2.03.pura")'>link</a> ]</td>
+	<td>2.03</td>
+	<td>pura</td>
+	<td>complete</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>[ <a href="#" onclick='navigateToVarga("2.04.shaila")'>link</a> ]</td>
+	<td>2.04</td>
+	<td>shaila</td>
+	<td>in-progress</td>
+	<td></td>
+	<td></td>
+</tr>
+</table>
+
+<h2>options</h2>
+
+<span class="navoptions">
+    <input type="checkbox" id="omitMulamColours"> Do not colour the mulam
 <br><input type="checkbox" id="omitGenders" > Do not show 'mfn' gender indicators above main text
 <br><input type="checkbox" id="omitEnglishTranslation" > Do not show English translations
 <br><input type="checkbox" id="omitSanskritTranslation" > Do not show Sanskrit translations
 <br><input type="checkbox" id="omitAudio" > Do not show audio markers
 <br><input type="checkbox" id="omitWordList" > Do not show word lists for each line
-<br><input type="checkbox" id="geniusMode" > I am a genius. Show me just the mulam.
-
-<br><br>
-<span class="nav">
-<ul>
-<li><a href="#" onclick='navigateToVarga("1.09.shabdaadi")'>shabdadivarga</a> -- complete
-<li><a href="#" onclick='navigateToVarga("1.13.vaari")'>varivarga</a> -- no audio.
-<li><a href="#" onclick='navigateToVarga("2.02.bhuumi")'>bhumivarga</a> -- no audio, no sanskrit vrittis.
-<li><a href="#" onclick='navigateToVarga("2.03.pura")'>puravarga</a> -- no audio, no sanskrit vrittis.
-<li><a href="#" onclick='navigateToVarga("2.04.shaila")'>shailavarga</a> -- in progress.
-</ul>
+<br><input type="checkbox" id="geniusMode" > Genius mode -- show me just the mulam
 </span>
 
+<h2>tips</h2>
+
+If you are using chrome, install the <a href="https://chrome.google.com/webstore/detail/context-menu-search/ocpcmghnefmdhljkoiapafejjohldoga">context menu search</a> extension, and add the following entry to
+search the Apte dictionary. You can then highlight a word from the word list to the right of the page,
+and use the context menu (right-click) to search that word in the Apte dictionary.
+
+<pre>http://dsalsrv02.uchicago.edu/cgi-bin/philologic/search3advanced?dbname=apte&query=%s&searchdomain=headwords&matchtype=start&display=utf8</pre>
+
+<h2>about</h2>
+
+    [ <a href="https://raw.githubusercontent.com/aupasana/amara/master/docs/todo.txt">link</a> ] - todo list.
+<br>[ <a href="https://github.com/aupasana/amara">link</a> ] - github project.
 
 </body>
 </html>

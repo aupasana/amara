@@ -3,7 +3,7 @@ body amara   {
 	overflow-x:scroll;
 }
 table	{
-    font-family: "Sanskrit 2003", Kokila, Aparajita, Times, serif;
+	font-family: "Sanskrit 2003", Kokila, Aparajita, Times, serif;
 	font-size: 20px;
 	border-collapse: collapse; 
 	padding: 0 0 0 0px;
@@ -105,3 +105,7 @@ a:hover + .box,.box:hover{
 	font-family: "Sanskrit 2003", Kokila, Aparajita, Times, serif;
 }
 
+.navoptions  {
+	font-family: "Sanskrit 2003", Kokila, Aparajita, Times, serif;
+	font-size: small;
+}

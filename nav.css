@@ -1,0 +1,29 @@
+
+body  {
+/*	font-family: "Sanskrit 2003", Kokila, Aparajita, Times, serif; */
+}
+
+
+.navoptions  {
+	font-size: small;
+	line-height: 100%;
+}
+
+.vargas {
+	line-height: 120%;
+}
+
+td {
+	padding-left: 20px;
+}
+
+.header {
+	font-weight: bold;
+	text-align: left;
+}
+
+/*
+tr td:nth-child(3) {
+   text-align: center;
+}
+*/
