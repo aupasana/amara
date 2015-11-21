@@ -1,34 +1,9 @@
 <html>
 <head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.4/js.cookie.min.js"></script>
+	<script src="nav.js"></script>
 	<link rel="stylesheet" type="text/css" href="amara.css">
-
-<script>
-function getUrlComponentForOmit(option) {
-
-	var geniusMode = (document.getElementById('geniusMode').checked === true);
-	var retString = '';
-
-	if (geniusMode === true || document.getElementById(option).checked === true) {
-		retString = '&' + option + '=true';
-	}
-
-	return retString;
-}
-
-function navigateToVarga(varga){
-	var hrefString = 'amara.html?varga=' + varga;
-
-	hrefString += getUrlComponentForOmit('omitMulamColours');
-	hrefString += getUrlComponentForOmit('omitGenders');
-	hrefString += getUrlComponentForOmit('omitEnglishTranslation');
-	hrefString += getUrlComponentForOmit('omitSanskritTranslation');
-	hrefString += getUrlComponentForOmit('omitAudio');
-	hrefString += getUrlComponentForOmit('omitWordList');
-
-
-	window.location.href = hrefString;
-}
-</script>
 </head>
 
 <body>
