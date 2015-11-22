@@ -32,7 +32,6 @@ audioAvailability = {
 
 amaraAudio = undefined;
 amaraAudioBase = "https://archive.org/download/AmaraKoshaAudio/";
-amaraAudioList = new Object();
 amaraAudioCurrentlyPlaying = undefined;
 amaraCurrentVarga = undefined;
 
@@ -107,20 +106,6 @@ $.urlParam = function(name){
        return results[1] || 0;
     }
 }
-
-$.ajax({
-	url : 'amaraAudio.txt',
-	success : function(result){
-		var splitResult = result.replaceAll('\n\n', '\n').split(/\r?\n/);	
-		for (var i=0; i<splitResult.length; i++) {
-			var lineNumber = splitResult[i].split('-')[1];
-			if (lineNumber !== undefined) {
-				amaraAudioList[lineNumber] = splitResult[i];			
-			}
-		}
-		// PrintJsonToConsole(amaraAudioList);
-	}
-});
 
 if ($.urlParam('varga') !== null && $.urlParam('varga') !== undefined) {
 //	document.getElementById('navigation').innerHTML = '';
@@ -342,16 +327,11 @@ function ConvertProcessedDataToHtml(processedData) {
 
 			var audioLinks = '';
 
-			var c = Pad(slokaNumber-1, 4);
-			var a = amaraAudioList[Pad(slokaNumber-1, 4)];
-			var b = processedData[i].ContinuePreviousLine;
-
 			if (processedData[i].Parameters.noLineNumber === undefined && processedData[i].ContinuePreviousLine !== true) {
 				// Play via javascript
 				var onClick = 'PlayAmara(\'amara-line-' + Pad(slokaNumber-1, 4) + '.mp3\')';
 
 				// Play directly for one-page playback
-				//var onClick = 'new Audio(\'' + amaraAudioBase  + amaraAudioList[Pad(slokaNumber-1, 4)] + '\').play();';
 				audioLinks += '<img height="15" onclick="' + onClick + '" src="https://upload.wikimedia.org/wikipedia/commons/9/98/Crystal_Clear_app_knotify.png"></img> ';
 				audioLinks += '&nbsp;&nbsp;';
 			}
