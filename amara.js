@@ -121,7 +121,7 @@ if ($.urlParam('varga') !== null && $.urlParam('varga') !== undefined) {
 function LoadVarga(varga) {
 	amaraCurrentVarga = varga;
 	$.ajax({
-		url : 'data\\' + varga + '.txt',
+		url : 'data/' + varga + '.txt',
 		success : function(result){
 			var processedData = ProcessData(result);
 			var dataAsHtml = ConvertProcessedDataToHtml(processedData);
