@@ -10,17 +10,17 @@ Please see docs\todo.txt for future plans.
 Working snapshots —
 
 (1) Latest snapshot served by rawgit
-    https://rawgit.com/aupasana/amara/master/index.html 
-    Note: This requires the DESKTOP version of chrome (Windows/OSX only)
-    It will NOT work on iOS or other browsers (IE/Safari).
+    <br>https://rawgit.com/aupasana/amara/master/index.html 
+    <br>Note: This requires the DESKTOP version of chrome (Windows/OSX only)
+    <br>It will NOT work on iOS or other browsers (IE/Safari).
 
 (2) Periodically refreshed snapshot hosted on sanskritdocuments
-    http://sanskritdocuments.org/incoming/ajit/amara
-    Note: The files will be refreshed monthly.
-    It will work on IE/Safari/Chrome on Windows/iOS/OSX.
+    <br>http://sanskritdocuments.org/incoming/ajit/amara
+    <br>Note: The files will be refreshed monthly.
+    <br>It will work on IE/Safari/Chrome on Windows/iOS/OSX.
 
 (3) Host it on your local machine (for developers)
-    https://github.com/aupasana/amara/archive/master.zip
+    <br>https://github.com/aupasana/amara/archive/master.zip
 
     (a) Download the archive above (or use a git client to pull the files)
     (b) Run a local webserver 
