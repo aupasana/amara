@@ -17,7 +17,7 @@ Working snapshots —
 (2) Periodically refreshed snapshot hosted on sanskritdocuments
     <br>http://sanskritdocuments.org/incoming/ajit/amara
     <br>Note: The files will be refreshed monthly.
-    <br>It will work on IE/Safari/Chrome on Windows/iOS/OSX.
+    <br>It will work on IE/Safari/Chrome/Firefox on Windows/iOS/OSX.
 
 (3) Host it on your local machine (for developers)
     <br>https://github.com/aupasana/amara/archive/master.zip
