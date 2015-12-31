@@ -123,7 +123,20 @@ function LoadVarga(varga) {
 	$.ajax({
 		url : 'data/' + varga + '.txt',
 		success : function(result){
-			var processedData = ProcessData(result);
+
+			var $vargaData = result;
+
+			if (result.redirect) {
+				$.ajax({
+					url : result.redirect,
+					success : function(redirectedResult){
+						$vargaData = redirectedResult;
+					}
+				});
+			}
+
+
+			var processedData = ProcessData($vargaData);
 			var dataAsHtml = ConvertProcessedDataToHtml(processedData);
 
 			console.log(dataAsHtml);
