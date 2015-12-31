@@ -122,6 +122,7 @@ function LoadVarga(varga) {
 	amaraCurrentVarga = varga;
 	$.ajax({
 		url : 'data/' + varga + '.txt',
+		dataType: 'jsonp',
 		success : function(result){
 
 			var $vargaData = result;
