@@ -1,4 +1,4 @@
-अथ पुरवर्गः 
+﻿अथ पुरवर्गः 
 { "noLineNumber" : "true" }
 { "pdf_vs" : 116 }
 { "pdf_cb" : 77 }
@@ -129,7 +129,7 @@ The threshold + Court or yard
 उदुम्बरस्य + प्राङ्गणस्य
 --
 अधस्ताद्दारुणि [शिला]+ [नासा] दारूपरि स्थितम्
-शिला {f}, नासा {f}
+शिला {f} + नासा {f}
 Lower timber of a door + Upper timber
 द्वारस्तम्भाधःस्थितकाष्ठस्य + उपरिभित्तिधारकस्य काष्ठस्य
 --
@@ -207,3 +207,4 @@ Station of herdsmen + Abode of the lowest men
 { "noLineNumber" : "true" }
 --
 *****
+
