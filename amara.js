@@ -156,7 +156,10 @@ function LoadVarga(varga) {
 			} else if ($.urlParam('scrollToBottom') === 'true') {
 				window.scrollTo(0,document.body.scrollHeight);		
 			}
-		}
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+        	alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+       	}   
 	});
 }
 
