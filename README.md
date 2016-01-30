@@ -7,4 +7,6 @@ formatting is based off the Colebrooke edition of the amarakosha.
 
 Please see docs\todo.txt for future plans.
 
-This site is hosted at http://aupasana.github.io/amara/
+This site is hosted by GitHub Pages
+<br> http://amara.aupasana.com
+<br> http://aupasana.github.io/amara
